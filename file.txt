@@ -1,0 +1,57 @@
+/* Ex1 */
+
+Select JobTitle, HireDate
+From HumanResources.Employee
+
+/* Ex 2 */
+Select *
+From  Production.Product
+Where StandardCost between 90 and 100
+Order by StandardCost Desc
+
+/* Ex3 */
+Select pp.Name, pp.SellStartDate, ps.Name, pp.ListPrice, pp.Color
+From production.Product pp 
+join production.ProductSubcategory ps  on ps.ProductSubcategoryID = pp.ProductSubcategoryID
+Where pp.Name like '%Mountain%' AND pp.ListPrice between 500 and 800
+Order by pp.Color desc,  pp.Name asc
+
+/* Ex4 */
+
+select MaritalStatus, Gender, count(*) "Num of employees", avg(SickLeaveHours) "Avg seak leave hours"
+from HumanResources.Employee
+where BirthDate > '1980-10-10'
+group by MaritalStatus, Gender
+having avg(SickLeaveHours) > 43
+order by "Avg seak leave hours" asc 
+
+	
+
+/* Ex 5 */
+Select LastName, FirstName, DATEDIFF(month, sp.ModifiedDate, GETDATE()) 'Months till now', (Select AVG(SalesLastYear) From Sales.SalesPerson) 'Avarage'
+From Sales.SalesPerson sp
+join Person.Person pp on sp.BusinessEntityID = pp.BusinessEntityID
+Where sp.Bonus > 100 AND SalesLastYear > (Select AVG(SalesLastYear) From Sales.SalesPerson)
+order by pp.lastname desc 
+
+
+/* Ex 7 */
+Select pb.BusinessEntityID, pb.ModifiedDate, pct.Name 'Contract Name', ss.Name 'Store Name', pAdd.AddressLine1, pAdd.AddressLine2 
+From Person.BusinessEntity pb
+join person.BusinessEntityContact pbc on pb.BusinessEntityID = pbc.BusinessEntityID
+join person.ContactType pct on pbc.ContactTypeID = pct.ContactTypeID
+join person.BusinessEntityAddress pba on pb.BusinessEntityID = pba.BusinessEntityID
+join person.Address pAdd on pba.AddressID = pAdd.AddressID
+join Sales.Store ss on pb.BusinessEntityID= ss.BusinessEntityID
+
+
+/* Ex6 */
+
+Create view Person_View As
+Select FirstName, LastName 
+From Person.Person
+
+INSERT INTO Person_View(LastName)
+VALUES('AAAA');
+
+/*This is non updatable function*/
