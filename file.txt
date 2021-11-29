@@ -36,13 +36,15 @@ order by pp.lastname desc
 
 
 /* Ex 7 */
-Select pb.BusinessEntityID, pb.ModifiedDate, pct.Name 'Contract Name', ss.Name 'Store Name', pAdd.AddressLine1, pAdd.AddressLine2 
+Select pb.ModifiedDate, pct.Name 'Contract Name', ss.Name 'Store Name', concat(pAdd.AddressLine1, ', ', pAdd.PostalCode) 'Address'
 From Person.BusinessEntity pb
 join person.BusinessEntityContact pbc on pb.BusinessEntityID = pbc.BusinessEntityID
 join person.ContactType pct on pbc.ContactTypeID = pct.ContactTypeID
 join person.BusinessEntityAddress pba on pb.BusinessEntityID = pba.BusinessEntityID
 join person.Address pAdd on pba.AddressID = pAdd.AddressID
 join Sales.Store ss on pb.BusinessEntityID= ss.BusinessEntityID
+where ss.Name like '%Toy%'
+order by pct.Name asc, ss.Name desc, pb.ModifiedDate asc 
 
 
 /* Ex6 */
